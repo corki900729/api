@@ -13,13 +13,13 @@ return [
     // 数据库类型
     'type'           => 'mysql',
     // 服务器地址
-    'hostname'       => 'localhost',
+    'hostname'       => '10.66.191.93',
     // 数据库名
-    'database'       => 'thinkphp',
+    'database'       => 'air_watch',
     // 用户名
-    'username'       => 'admin',
+    'username'       => 'air_watch',
     // 密码
-    'password'       => 'admin',
+    'password'       => 'air_watch@123',
     // 端口
     'hostport'       => '3306',
     // 连接dsn
@@ -27,7 +27,7 @@ return [
     // 数据库连接参数
     'params' => [
         // 使用长连接
-        \PDO::ATTR_PERSISTENT => false,
+        \PDO::ATTR_PERSISTENT => true,
     ],
     // 数据库编码默认采用utf8
     'charset'        => 'utf8',

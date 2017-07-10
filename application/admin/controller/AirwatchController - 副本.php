@@ -38,8 +38,8 @@ class AirwatchController extends AdminAuth{
     );
 
     public function index(){
-        $conn=mssql_connect('139.199.29.249:1433','AirWatchAdmin','zap##123'); 
-        // $conn=mssql_connect('182.150.39.91:1433','sa','Scal123456'); 
+        // $conn=mssql_connect('139.199.29.249:1433','AirWatchAdmin','zap##123'); 
+        $conn=mssql_connect('182.150.39.91:1433','sa','Scal123456'); 
         mssql_select_db('AirWatch',$conn);
         $sql = "SELECT DVC.DeviceID,SerialNumber,BatteryLifePercent from interrogator.PowerSample as PS
                     JOIN dbo.device as DVC
@@ -55,7 +55,7 @@ class AirwatchController extends AdminAuth{
         return $this->fetch();
     }
     public function version(){
-        $reply = "https://scal.awemm.com/api/mdm/devices?searchby= Serialnumber&id=C7KR3JWUGRY8";
+        $reply = "https://console.emm-yuandingit.com/api/mdm/devices?searchby= Serialnumber&id=C7KR3JWUGRY8";
         $replyd = new \HttpClient($reply);
         // aw-tenant-code是restapi秘钥
         // Authorization是postman根据用户名密码生成的秘钥
@@ -68,7 +68,7 @@ class AirwatchController extends AdminAuth{
 
         $id = $_REQUEST['id'];
         // echo $id;exit();
-        $url = "https://scal.awemm.com/api/mdm/devices/serialnumber/".$id."/sendmessage/push";
+        $url = "https://console.emm-yuandingit.com/api/mdm/devices/serialnumber/".$id."/sendmessage/push";
         $cms = new \HttpClient($url);
         $data = array(
                 'MessageBody' => "电量过低", 
@@ -76,7 +76,7 @@ class AirwatchController extends AdminAuth{
                 "Application"=>"AirWatch Agent"
             );
         $data = json_encode($data, JSON_UNESCAPED_UNICODE);
-        $cms->setHeader('Content-Type', 'application/json')->setHeader('aw-tenant-code', 'Ok0gULrF1Lg5Q2as9k9AnUpRHH9lkksLfQZva/liHJM=')->setHeader('Authorization', 'Basic YWRtaW5pc3RyYXRvcjpTY2FsMTIzNDU2')->post($data)->getResponseBody();
+        $cms->setHeader('Content-Type', 'application/json')->setHeader('aw-tenant-code', 'o5vjF3Iro8pejRyz0trmZrh/VV5BdQiYNJutIYljfww=')->setHeader('Authorization', 'Basic YWRtaW5pc3RyYXRvcjoxcTJ3I0UkUg==')->post($data)->getResponseBody();
         // echo $data;
         // $ch = curl_init($url); //请求的URL地址
         // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -105,25 +105,5 @@ class AirwatchController extends AdminAuth{
          echo($Row[1]); 
          echo("<br>"); 
            }    
-    }
-    public function create(){
-        // 选择电量多少才开始报警
-       
-        
-        return $this->fetch();
-    }
-        public function save(){
-        // 选择电量多少才开始报警
-        $id = $_REQUEST['electric']?$_REQUEST['electric']:0 ;
-        $data = array('electric'=>$id);
-        if($id){
-            $rec = db('Ele')->where('id',1)->update($data);
-            if ($rec) {
-                $this->success('新增成功', 'index');
-            }else{
-                $this->error('添加失败');
-            }
-        }
-        
     }
 }
